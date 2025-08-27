@@ -36,7 +36,7 @@ It downloads and extracts the official CHR image, injects an autorun script with
 # Clone the repository
 git clone https://github.com/hreskiv/chr-on-vps.git
 cd chr-on-vps
-
+```
 # Run installer with a custom password
 NEW_PASSWORD="Strong!Pass123" ./chr-install.sh
 
@@ -46,7 +46,7 @@ NEW_PASSWORD="Strong!Pass123" ./chr-install.sh
 NEW_PASSWORD – admin password (default: changeMeNOW!).
 IDENTITY    – router identity (default: chr-7.19.4).
 TARGET_DISK – system disk to overwrite (auto-detected, or manually e.g. /dev/vda).
-
+```
 ## Notes
 
 - After reboot, CHR will be accessible on the same IP address the Linux VPS was using.  
