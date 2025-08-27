@@ -39,3 +39,12 @@ cd chr-on-vps
 
 # Run installer with a custom password
 NEW_PASSWORD="Strong!Pass123" ./chr-install.sh
+```
+
+### Environment variables
+
+```text
+NEW_PASSWORD – admin password (default: changeMeNOW!).
+IDENTITY    – router identity (default: chr-7.19.4).
+TARGET_DISK – system disk to overwrite (auto-detected, or manually e.g. /dev/vda).
+```
