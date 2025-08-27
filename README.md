@@ -17,7 +17,8 @@ It downloads and extracts the official CHR image, injects an autorun script with
   - Sets system identity (`IDENTITY`).
 - Uses Linux `sysrq` (`u`, `s`, `b`) for safe remount, sync, and reboot.
 - Works on **Debian/Ubuntu** and **CentOS/RHEL** VPS.
-- Tested on [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=a5fd7bce5490&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+- Tested on DigitalOcean
+- [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=a5fd7bce5490&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 ---
 
