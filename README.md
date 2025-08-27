@@ -25,8 +25,6 @@ It downloads and extracts the official CHR image, injects an autorun script with
 ## Requirements
 
 - Root privileges.
-- VPS in **BIOS (legacy) boot mode**.  
-  ⚠️ CHR raw `.img` does **not boot on UEFI-only VPS** (e.g., DigitalOcean, Vultr). Use the official `.iso` in that case.
 - Tools: `wget`, `unzip`, `losetup`, `mount`, `umount`, `dd`, `lsblk`, `findmnt`.  
   (The script attempts to auto-install missing packages.)
 
