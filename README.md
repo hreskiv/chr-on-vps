@@ -37,9 +37,10 @@ It downloads and extracts the official CHR image, injects an autorun script with
 git clone https://github.com/hreskiv/chr-on-vps.git
 cd chr-on-vps
 ```
+```bash
 # Run installer with a custom password
 NEW_PASSWORD="Strong!Pass123" ./chr-install.sh
-
+```
 ## Environment variables
 
 ```text
