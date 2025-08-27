@@ -16,7 +16,8 @@ It downloads and extracts the official CHR image, injects an autorun script with
   - Sets the admin password (`NEW_PASSWORD`).
   - Sets system identity (`IDENTITY`).
 - Uses Linux `sysrq` (`u`, `s`, `b`) for safe remount, sync, and reboot.
-- Works on **Debian/Ubuntu** and **CentOS/RHEL** VPS running in **BIOS boot mode**.
+- Works on **Debian/Ubuntu** and **CentOS/RHEL** VPS.
+- Tested on [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=a5fd7bce5490&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 ---
 
@@ -39,12 +40,24 @@ cd chr-on-vps
 
 # Run installer with a custom password
 NEW_PASSWORD="Strong!Pass123" ./chr-install.sh
-```
 
-### Environment variables
+## Environment variables
 
 ```text
 NEW_PASSWORD – admin password (default: changeMeNOW!).
 IDENTITY    – router identity (default: chr-7.19.4).
 TARGET_DISK – system disk to overwrite (auto-detected, or manually e.g. /dev/vda).
-```
+
+## Notes
+
+- After reboot, CHR will be accessible on the same IP address the Linux VPS was using.  
+- Default user: `admin` with password set via `NEW_PASSWORD`.  
+
+---
+
+## Contributing
+
+Contributions, issues, and feature requests are welcome!  
+Feel free to open a Pull Request or Issue if you’d like to improve this project.  
+
+📧 Contact: [ihor@hreskiv.pl](mailto:ihor@hreskiv.pl)
