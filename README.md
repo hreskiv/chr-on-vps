@@ -25,8 +25,6 @@ It downloads and extracts the official CHR image, injects an autorun script with
 ## Requirements
 
 - Root privileges.
-- VPS in **BIOS (legacy) boot mode**.  
-  ⚠️ CHR raw `.img` does **not boot on UEFI-only VPS** (e.g., DigitalOcean, Vultr). Use the official `.iso` in that case.
 - Tools: `wget`, `unzip`, `losetup`, `mount`, `umount`, `dd`, `lsblk`, `findmnt`.  
   (The script attempts to auto-install missing packages.)
 
@@ -38,13 +36,18 @@ It downloads and extracts the official CHR image, injects an autorun script with
 # Clone the repository
 git clone https://github.com/hreskiv/chr-on-vps.git
 cd chr-on-vps
+<<<<<<< HEAD
 
 # or download with CURL
 curl -L -O https://github.com/hreskiv/chr-on-vps/raw/refs/heads/main/chr-install.sh
 
+=======
+```
+```bash
+>>>>>>> d29c2b57f547d665f8d3a12483252b6128c5e197
 # Run installer with a custom password
 NEW_PASSWORD="Strong!Pass123" ./chr-install.sh
-
+```
 ## Environment variables
 
 ```text
@@ -52,7 +55,7 @@ ROS_VER - version of the RouterOS version (default: 7.19.4)
 NEW_PASSWORD – admin password (default: changeMeNOW!).
 IDENTITY    – router identity (default: chr-7.19.4).
 TARGET_DISK – system disk to overwrite (auto-detected, or manually e.g. /dev/vda).
-
+```
 ## Notes
 
 - After reboot, CHR will be accessible on the same IP address the Linux VPS was using.  
