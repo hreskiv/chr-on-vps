@@ -4,21 +4,22 @@
 # Intended for quick deployment of CHR on a new VPS.  
 # Tested on Debian 12, Ubuntu 25.04, CentOS 9, Rocky Linux 9.
 # Author: Ihor Hreskiv
-# Date: 2025-08-27
-# Version: 2.1
+# Creating date: 2025-08-27
+# Update date: 2025-09-11
+# Version: 2.2
 #############################################
 # quick usage: 
 # change password: NEW_PASSWORD='S3cure!Pass' ./chr-install.sh
 # change identity: IDENTITY='chr-cloud' ./chr-install.sh
+# change veriosn of the RouterOS: ROS_VER='7.19.4' ./chr-install.sh
 #############################################
 
 
 set -euo pipefail
 
-# -------- Fixed config --------
-ROS_VER="7.19.4"
+# ---------------------------[ Config ]----------------------------------
+ROS_VER="${ROS_VER:-7.19.4}"
 ROS_ZIP_URL="https://download.mikrotik.com/routeros/${ROS_VER}/chr-${ROS_VER}.img.zip"
-
 
 # Optional env overrides
 NEW_PASSWORD="${NEW_PASSWORD:-changeMeNOW!}"     # pass via env to avoid editing script
@@ -108,7 +109,8 @@ cat > "$MNT/rw/autorun.scr" <<EOF
 /user set 0 password=${NEW_PASSWORD}
 /system identity set name="${IDENTITY}"
 /ip dns set servers=8.8.8.8
-ip/service/set disabled=yes api,api-ssl,telnet,ftp
+/ip/service/set disabled=yes api,api-ssl,telnet,ftp
+/ip/dhcp-client/set disabled=yes 0
 EOF
 
 ls -l "$MNT/rw/autorun.scr" >/dev/null

@@ -9,7 +9,7 @@ It downloads and extracts the official CHR image, injects an autorun script with
 
 ## Features
 
-- Downloads the official MikroTik CHR image (**fixed to 7.19.4**).
+- Downloads the official MikroTik CHR image (**default 7.19.4**).
 - Extracts the `.img` file from the `.zip` package.
 - Mounts the image and injects an `autorun.scr` into the `rw/` partition:
   - Configures static IP and gateway from the current Linux VPS.
@@ -39,12 +39,16 @@ It downloads and extracts the official CHR image, injects an autorun script with
 git clone https://github.com/hreskiv/chr-on-vps.git
 cd chr-on-vps
 
+# or download with CURL
+curl -L -O https://github.com/hreskiv/chr-on-vps/raw/refs/heads/main/chr-install.sh
+
 # Run installer with a custom password
 NEW_PASSWORD="Strong!Pass123" ./chr-install.sh
 
 ## Environment variables
 
 ```text
+ROS_VER - version of the RouterOS version (default: 7.19.4)
 NEW_PASSWORD – admin password (default: changeMeNOW!).
 IDENTITY    – router identity (default: chr-7.19.4).
 TARGET_DISK – system disk to overwrite (auto-detected, or manually e.g. /dev/vda).
