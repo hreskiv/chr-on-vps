@@ -46,9 +46,9 @@ NEW_PASSWORD="Strong!Pass123" ./chr-install.sh
 ## Environment variables
 
 ```text
-ROS_VER - version of the RouterOS version (default: 7.19.4)
+ROS_VER - version of the RouterOS version (default: 7.20)
 NEW_PASSWORD – admin password (default: changeMeNOW!).
-IDENTITY    – router identity (default: chr-7.19.4).
+IDENTITY    – router identity (default: chr-7.20).
 TARGET_DISK – system disk to overwrite (auto-detected, or manually e.g. /dev/vda).
 ```
 ## Notes
