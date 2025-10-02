@@ -1,24 +1,24 @@
 #!/bin/bash
-# Install MikroTik Cloud Hosted Router (CHR) 7.19.4 onto the current VPS disk.
+# Install MikroTik Cloud Hosted Router (CHR) 7.20 onto the current VPS disk.
 # DANGER: This WILL overwrite the whole system disk immediately (no confirmation).
 # Intended for quick deployment of CHR on a new VPS.  
 # Tested on Debian 12, Ubuntu 25.04, CentOS 9, Rocky Linux 9.
 # Author: Ihor Hreskiv
 # Creating date: 2025-08-27
-# Update date: 2025-09-11
-# Version: 2.2
+# Update date: 2025-10-02
+# Version: 2.3
 #############################################
 # quick usage: 
 # change password: NEW_PASSWORD='S3cure!Pass' ./chr-install.sh
 # change identity: IDENTITY='chr-cloud' ./chr-install.sh
-# change veriosn of the RouterOS: ROS_VER='7.19.4' ./chr-install.sh
+# change veriosn of the RouterOS: ROS_VER='7.20' ./chr-install.sh
 #############################################
 
 
 set -euo pipefail
 
 # ---------------------------[ Config ]----------------------------------
-ROS_VER="${ROS_VER:-7.19.4}"
+ROS_VER="${ROS_VER:-7.20}"
 ROS_ZIP_URL="https://download.mikrotik.com/routeros/${ROS_VER}/chr-${ROS_VER}.img.zip"
 
 # Optional env overrides
@@ -108,6 +108,7 @@ cat > "$MNT/rw/autorun.scr" <<EOF
 /ip route add gateway=${GW}
 /user set 0 password=${NEW_PASSWORD}
 /system identity set name="${IDENTITY}"
+/tool bandwidth-server set enabled=no
 /ip dns set servers=8.8.8.8
 /ip/service/set disabled=yes api,api-ssl,telnet,ftp
 /ip/dhcp-client/set disabled=yes 0
