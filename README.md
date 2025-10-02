@@ -9,7 +9,7 @@ It downloads and extracts the official CHR image, injects an autorun script with
 
 ## Features
 
-- Downloads the official MikroTik CHR image (**default 7.19.4**).
+- Downloads the official MikroTik CHR image (**default 7.20**).
 - Extracts the `.img` file from the `.zip` package.
 - Mounts the image and injects an `autorun.scr` into the `rw/` partition:
   - Configures static IP and gateway from the current Linux VPS.
