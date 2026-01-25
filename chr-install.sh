@@ -1,24 +1,49 @@
 #!/bin/bash
-# Install MikroTik Cloud Hosted Router (CHR) 7.20 onto the current VPS disk.
+# Install MikroTik Cloud Hosted Router (CHR) onto the current VPS disk.
 # DANGER: This WILL overwrite the whole system disk immediately (no confirmation).
-# Intended for quick deployment of CHR on a new VPS.  
+# Intended for quick deployment of CHR on a new VPS.
 # Tested on Debian 12, Ubuntu 25.04, CentOS 9, Rocky Linux 9.
 # Author: Ihor Hreskiv
 # Creating date: 2025-08-27
-# Update date: 2025-10-02
-# Version: 2.3
+# Update date: 2026-01-25
+# Version: 2.4
 #############################################
-# quick usage: 
+# quick usage:
 # change password: NEW_PASSWORD='S3cure!Pass' ./chr-install.sh
 # change identity: IDENTITY='chr-cloud' ./chr-install.sh
-# change veriosn of the RouterOS: ROS_VER='7.20' ./chr-install.sh
+# change version of the RouterOS: ROS_VER='7.18' ./chr-install.sh
+# by default installs latest stable version
 #############################################
 
 
 set -euo pipefail
 
+# -------- Checks --------
+[[ $EUID -eq 0 ]] || { echo "Run as root."; exit 1; }
+
+# -------- Install wget/unzip if missing --------
+if command -v yum >/dev/null; then
+  yum install -y wget unzip
+elif command -v dnf >/dev/null; then
+  dnf install -y wget unzip
+elif command -v apt-get >/dev/null; then
+  apt-get install -qq -y wget unzip
+fi
+
+need_bins=(wget losetup mount umount awk ip dd lsblk findmnt)
+for b in "${need_bins[@]}"; do
+  command -v "$b" >/dev/null || { echo "Missing required tool: $b"; exit 1; }
+done
+
 # ---------------------------[ Config ]----------------------------------
-ROS_VER="${ROS_VER:-7.20}"
+# Fetch latest stable version if ROS_VER not specified
+if [[ -z "${ROS_VER:-}" ]]; then
+  echo "[*] Detecting latest stable RouterOS version..."
+  ROS_VER=$(wget -qO- https://upgrade.mikrotik.com/routeros/NEWESTa7.stable | cut -d' ' -f1)
+  [[ -n "$ROS_VER" ]] || { echo "Failed to fetch latest version."; exit 1; }
+  echo "    -> Latest stable: ${ROS_VER}"
+fi
+
 ROS_ZIP_URL="https://download.mikrotik.com/routeros/${ROS_VER}/chr-${ROS_VER}.img.zip"
 
 # Optional env overrides
@@ -28,24 +53,6 @@ TARGET_DISK="${TARGET_DISK:-}"                   # e.g. /dev/vda (auto-detected 
 
 WORKDIR="/tmp/chr-inst"
 MNT="/mnt/chr"
-
-# -------- Install wget/unzip if missing --------
-if command -v yum >/dev/null; then
-  yum install -y wget unzip
-elif command -v dnf >/dev/null; then
-  dnf install -y wget unzip
-elif command -v apt-get >/dev/null; then
-  apt-get install -y wget unzip
-fi
-
-
-# -------- Checks --------
-[[ $EUID -eq 0 ]] || { echo "Run as root."; exit 1; }
-
-need_bins=(wget losetup mount umount awk ip dd lsblk findmnt)
-for b in "${need_bins[@]}"; do
-  command -v "$b" >/dev/null || { echo "Missing required tool: $b"; exit 1; }
-done
 
 
 # -------- Prep --------
@@ -104,12 +111,12 @@ echo "[*] Network (static): IFACE=$IFACE ADDR=$ADDR GW=$GW"
 # -------- Write autorun.scr --------
 echo "[*] Writing autorun.scr ..."
 cat > "$MNT/rw/autorun.scr" <<EOF
-/ip address add address=${ADDR} interface=[/interface ethernet find where name=ether1]
-/ip route add gateway=${GW}
-/user set 0 password=${NEW_PASSWORD}
-/system identity set name="${IDENTITY}"
-/tool bandwidth-server set enabled=no
-/ip dns set servers=8.8.8.8
+/ip/address/add address=${ADDR} interface=[/interface/ethernet/find where name=ether1]
+/ip/route/add gateway=${GW}
+/user/set 0 password=${NEW_PASSWORD}
+/system/identity/set name="${IDENTITY}"
+/tool/bandwidth-server/set enabled=no
+/ip/dns/set servers=8.8.8.8
 /ip/service/set disabled=yes api,api-ssl,telnet,ftp
 /ip/dhcp-client/set disabled=yes 0
 EOF

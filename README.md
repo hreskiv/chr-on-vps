@@ -9,7 +9,7 @@ It downloads and extracts the official CHR image, injects an autorun script with
 
 ## Features
 
-- Downloads the official MikroTik CHR image (**default 7.20**).
+- Downloads the official MikroTik CHR image (**latest stable version**).
 - Extracts the `.img` file from the `.zip` package.
 - Mounts the image and injects an `autorun.scr` into the `rw/` partition:
   - Configures static IP and gateway from the current Linux VPS.
@@ -46,10 +46,10 @@ NEW_PASSWORD="Strong!Pass123" ./chr-install.sh
 ## Environment variables
 
 ```text
-ROS_VER - version of the RouterOS version (default: 7.20)
+ROS_VER      – RouterOS version (default: latest stable).
 NEW_PASSWORD – admin password (default: changeMeNOW!).
-IDENTITY    – router identity (default: chr-7.20).
-TARGET_DISK – system disk to overwrite (auto-detected, or manually e.g. /dev/vda).
+IDENTITY     – router identity (default: chr-<version>).
+TARGET_DISK  – system disk to overwrite (auto-detected, or e.g. /dev/vda).
 ```
 ## Notes
 
