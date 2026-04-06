@@ -108,10 +108,45 @@ GW="$(ip -4 route show default | awk '/default/ {print $3; exit}' || true)"
 }
 echo "[*] Network (static): IFACE=$IFACE ADDR=$ADDR GW=$GW"
 
+# -------- Check if gateway is within the address subnet --------
+ip_to_int() {
+  local IFS='.'
+  read -r a b c d <<< "$1"
+  echo $(( (a << 24) + (b << 16) + (c << 8) + d ))
+}
+
+HOST_IP="${ADDR%%/*}"
+PREFIX="${ADDR##*/}"
+HOST_INT=$(ip_to_int "$HOST_IP")
+GW_INT=$(ip_to_int "$GW")
+MASK=$(( 0xFFFFFFFF << (32 - PREFIX) & 0xFFFFFFFF ))
+
+GW_ONLINK=false
+if (( (HOST_INT & MASK) != (GW_INT & MASK) )); then
+  GW_ONLINK=true
+  echo "[*] Gateway $GW is outside /${PREFIX} subnet — will add on-link route and network param"
+fi
+
 # -------- Write autorun.scr --------
 echo "[*] Writing autorun.scr ..."
+
+if [[ "$GW_ONLINK" == "true" ]]; then
+  ADDR_LINE="/ip/address/add address=${ADDR} network=${GW} interface=[/interface/ethernet/find where name=ether1]"
+else
+  ADDR_LINE="/ip/address/add address=${ADDR} interface=[/interface/ethernet/find where name=ether1]"
+fi
+
 cat > "$MNT/rw/autorun.scr" <<EOF
-/ip/address/add address=${ADDR} interface=[/interface/ethernet/find where name=ether1]
+${ADDR_LINE}
+EOF
+
+if [[ "$GW_ONLINK" == "true" ]]; then
+  cat >> "$MNT/rw/autorun.scr" <<EOF
+/ip/route/add dst-address=${GW}/32 gateway=[/interface/ethernet/find where name=ether1]
+EOF
+fi
+
+cat >> "$MNT/rw/autorun.scr" <<EOF
 /ip/route/add gateway=${GW}
 /user/set 0 password=${NEW_PASSWORD}
 /system/identity/set name="${IDENTITY}"
