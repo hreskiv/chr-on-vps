@@ -69,7 +69,7 @@ trap cleanup EXIT
 
 echo "[*] Downloading CHR image ${ROS_VER}..."
 cd "$WORKDIR"
-wget -q "$ROS_ZIP_URL" -O chr.img.zip
+wget -q --show-progress --progress=bar:force "$ROS_ZIP_URL" -O chr.img.zip
 
 echo "[*] Unzipping..."
 if command -v unzip >/dev/null; then
