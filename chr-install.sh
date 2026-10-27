@@ -5,8 +5,8 @@
 # Tested on Debian 12, Ubuntu 25.04, CentOS 9, Rocky Linux 9.
 # Author: Ihor Hreskiv
 # Creating date: 2025-08-27
-# Update date: 2026-01-25
-# Version: 2.4
+# Update date: 2026-10-27
+# Version: 2.5
 #############################################
 # quick usage:
 # change password: NEW_PASSWORD='S3cure!Pass' ./chr-install.sh
